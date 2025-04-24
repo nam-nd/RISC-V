@@ -11,19 +11,75 @@ module Control_Unit( opcode, RegWrite, MemRead, MemWrite, MemToReg, ALUSrc, Bran
     always @(*) begin
         case (opcode)
             7'b0110011:  // R-type 
-            begin  {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 2'b10};end
-            7'b0010011:   // I-type
-            begin {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b1, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 2'b10};end
+            begin  
+                ALUSrc <= 1'b0;
+                MemToReg <= 1'b0; 
+                RegWrite <= 1'b1; 
+                MemRead <= 1'b0; 
+                MemWrite <= 1'b0;
+                Branch <= 1'b0; 
+                ALUOp <= 2'b10;
+            end
+            7'b0000011:  // I-type 
+            begin
+                ALUSrc   <= 1'b1;
+                MemToReg <= 1'b0;
+                RegWrite <= 1'b1;
+                MemRead  <= 1'b0;
+                MemWrite <= 1'b0;
+                Branch   <= 1'b0;
+                ALUOp    <= 2'b10;
+            end
             7'b0000011:   // Load 
-            begin {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b1, 1'b1, 1'b1, 1'b1, 1'b0, 1'b0, 2'b00};end
+            begin
+                ALUSrc   <= 1'b1;
+                MemToReg <= 1'b1;
+                RegWrite <= 1'b1;
+                MemRead  <= 1'b1;
+                MemWrite <= 1'b0;
+                Branch   <= 1'b0;
+                ALUOp    <= 2'b00;
+            end
             7'b0100011:   // Store 
-            begin {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b1, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 2'b00};end
+            begin
+                ALUSrc   <= 1'b1;
+                MemToReg <= 1'b0;
+                RegWrite <= 1'b0;
+                MemRead  <= 1'b0;
+                MemWrite <= 1'b1;
+                Branch   <= 1'b0;
+                ALUOp    <= 2'b00;
+            end
             7'b1100011:   // Branch 
-            begin {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 2'b11};end  
+            begin
+                ALUSrc   <= 1'b0;
+                MemToReg <= 1'b0;
+                RegWrite <= 1'b0;
+                MemRead  <= 1'b0;
+                MemWrite <= 1'b0;
+                Branch   <= 1'b1;
+                ALUOp    <= 2'b11;
+            end 
             7'b1101111:   // Jump 
-            begin  {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 2'b10};end
+            begin
+                ALUSrc   <= 1'b0;
+                MemToReg <= 1'b0;
+                RegWrite <= 1'b1;
+                MemRead  <= 1'b0;
+                MemWrite <= 1'b0;
+                Branch   <= 1'b0;
+                ALUOp    <= 2'b10;
+            end
             default: 
-            begin {ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 2'b00};end  
+            begin 
+                ALUSrc   <= 1'b0;
+                MemToReg <= 1'b0;
+                RegWrite <= 1'b0;
+                MemRead  <= 1'b0;
+                MemWrite <= 1'b0;
+                Branch   <= 1'b0;
+                ALUOp    <= 2'b00;
+            end
         endcase
     end
 
